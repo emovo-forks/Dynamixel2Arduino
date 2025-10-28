@@ -252,6 +252,7 @@ bool Dynamixel2Arduino::setBaudrate(uint8_t id, uint32_t baudrate)
 
   switch(model_num)
   {
+    #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case AX12A:
     case AX12W:
     case AX18A:
@@ -359,7 +360,9 @@ bool Dynamixel2Arduino::setBaudrate(uint8_t id, uint32_t baudrate)
     case XD430_T210:
     case XD430_T350:
     case XM540_W150:
+  #endif
     case XM540_W270:
+  #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case XH540_W150:
     case XH540_W270:
     case XH540_V150:
@@ -370,6 +373,7 @@ bool Dynamixel2Arduino::setBaudrate(uint8_t id, uint32_t baudrate)
     case XW430_T333:
     case XW540_T140:
     case XW540_T260:    
+  #endif
       switch(baudrate)
       {
         case 9600:
@@ -400,7 +404,7 @@ bool Dynamixel2Arduino::setBaudrate(uint8_t id, uint32_t baudrate)
           return false;          
       }
       break;
-
+  #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     // case PRO_L42_10_S300_R:
     // case PRO_L54_30_S400_R:
     // case PRO_L54_30_S500_R:
@@ -543,7 +547,7 @@ bool Dynamixel2Arduino::setBaudrate(uint8_t id, uint32_t baudrate)
           return false;          
       }                
       break;
-
+#endif
     default:
       return false;
       break;
@@ -586,6 +590,7 @@ bool Dynamixel2Arduino::setLedState(uint8_t id, bool state)
 
   switch(model_num)
   {
+    #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     // case PRO_L42_10_S300_R:
     // case PRO_L54_30_S400_R:
     // case PRO_L54_30_S500_R:
@@ -615,7 +620,7 @@ bool Dynamixel2Arduino::setLedState(uint8_t id, bool state)
           }
       ret = writeControlTableItem(ControlTableItem::DXL_LED_RED, id, state);
       break;
-
+#endif
     default:
       ret = writeControlTableItem(ControlTableItem::DXL_LED, id, state);
       break;
@@ -633,6 +638,7 @@ bool Dynamixel2Arduino::setOperatingMode(uint8_t id, uint8_t mode)
 
   switch(model_num)
   {
+  #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case AX12A:
     case AX12W:
     case AX18A:
@@ -737,7 +743,9 @@ bool Dynamixel2Arduino::setOperatingMode(uint8_t id, uint8_t mode)
     case XD430_T210:
     case XD430_T350:
     case XM540_W150:
+  #endif
     case XM540_W270:
+  #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case XH540_W150:
     case XH540_W270:
     case XH540_V150:
@@ -748,6 +756,7 @@ bool Dynamixel2Arduino::setOperatingMode(uint8_t id, uint8_t mode)
     case XW430_T333:
     case XW540_T140:
     case XW540_T260:    
+  #endif
       if(mode == OP_POSITION){
         ret = writeControlTableItem(ControlTableItem::OPERATING_MODE, id, 3);
       }else if(mode == OP_VELOCITY){
@@ -762,7 +771,7 @@ bool Dynamixel2Arduino::setOperatingMode(uint8_t id, uint8_t mode)
         ret = writeControlTableItem(ControlTableItem::OPERATING_MODE, id, 5);
       }
       break;            
-
+  #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     // case PRO_L42_10_S300_R:
     // case PRO_L54_30_S400_R:
     // case PRO_L54_30_S500_R:
@@ -830,7 +839,7 @@ bool Dynamixel2Arduino::setOperatingMode(uint8_t id, uint8_t mode)
         ret = writeControlTableItem(ControlTableItem::OPERATING_MODE, id, 0);
       }
       break;
-
+  #endif
     default:
       break;
   }
@@ -1204,6 +1213,7 @@ const ModelDependencyFuncItemAndRangeInfo_t dependency_ctable_2_0_common[] PROGM
   {LAST_DUMMY_FUNC, ControlTableItem::LAST_DUMMY_ITEM, UNIT_RAW, 0, 0, 0}
 };
 
+#ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
 const ModelDependencyFuncItemAndRangeInfo_t dependency_mx64_2[] PROGMEM = {
 #if (ENABLE_ACTUATOR_MX64_PROTOCOL2)
   {SET_CURRENT, GOAL_CURRENT, UNIT_MILLI_AMPERE, -1193, 1193, 3.36},
@@ -1310,6 +1320,7 @@ const ModelDependencyFuncItemAndRangeInfo_t dependency_xh430_v210_v350[] PROGMEM
 #endif
   {LAST_DUMMY_FUNC, ControlTableItem::LAST_DUMMY_ITEM, UNIT_RAW, 0, 0, 0}
 };
+#endif // EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
 
 const ModelDependencyFuncItemAndRangeInfo_t dependency_xm540_xh540_xt540_xw540[] PROGMEM = {
 #if (ENABLE_ACTUATOR_XM540 || ENABLE_ACTUATOR_XH540 \
@@ -1335,6 +1346,7 @@ const ModelDependencyFuncItemAndRangeInfo_t dependency_xh540_v150_v270[] PROGMEM
 };
 
 
+#ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
 /* PRO R series */
 const ModelDependencyFuncItemAndRangeInfo_t dependency_pro_r_m42_10[] PROGMEM = {
 #if (ENABLE_ACTUATOR_PRO_R)
@@ -1604,7 +1616,7 @@ const ModelDependencyFuncItemAndRangeInfo_t dependency_ym080_230_099_rh[] PROGME
 #endif
   {LAST_DUMMY_FUNC, ControlTableItem::LAST_DUMMY_ITEM, UNIT_RAW, 0, 0, 0}
 };
-
+#endif // EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
 static ItemAndRangeInfo_t getModelDependencyFuncInfo(uint16_t model_num, uint8_t func_num)
 {
   const ModelDependencyFuncItemAndRangeInfo_t *p_common_ctable = nullptr;
@@ -1617,6 +1629,7 @@ static ItemAndRangeInfo_t getModelDependencyFuncInfo(uint16_t model_num, uint8_t
 
   switch(model_num)
   {
+    #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case AX12A:
     case AX12W:
     case AX18A:
@@ -1719,17 +1732,21 @@ static ItemAndRangeInfo_t getModelDependencyFuncInfo(uint16_t model_num, uint8_t
       break;   
 
     case XM540_W150:
+  #endif // EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case XM540_W270:
+  #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case XH540_W150:
     case XH540_W270:    
     case XD540_T150:
     case XD540_T270:    
     case XW540_T140:
     case XW540_T260:
+  #endif
       p_common_ctable = dependency_ctable_2_0_common;
       p_dep_ctable = dependency_xm540_xh540_xt540_xw540;
       break;
 
+  #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case XH540_V150:
     case XH540_V270:
       p_common_ctable = dependency_ctable_2_0_common;
@@ -1825,7 +1842,7 @@ static ItemAndRangeInfo_t getModelDependencyFuncInfo(uint16_t model_num, uint8_t
     case YM080_230_A099_RH:
       p_common_ctable = dependency_ym080_230_099_rh;
       break;
-
+#endif
     default:
       break;
   }

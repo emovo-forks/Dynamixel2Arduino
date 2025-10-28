@@ -12,6 +12,7 @@ typedef struct ModelControlTableInfo{
   uint8_t addr_length;
 } ModelControlTableInfo_t;
 
+#ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
 const ModelControlTableInfo_t control_table_1_0[] PROGMEM = {
 #if (ENABLE_ACTUATOR_AX \
  || ENABLE_ACTUATOR_DX \
@@ -163,6 +164,7 @@ const ModelControlTableInfo_t xl320_control_table[] PROGMEM = {
 #endif
   {ControlTableItem::LAST_DUMMY_ITEM,        0, 0}
 };
+#endif // EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
 
 const ModelControlTableInfo_t control_table_2_0[] PROGMEM = {
 #if (ENABLE_ACTUATOR_MX28_PROTOCOL2 \
@@ -228,6 +230,7 @@ const ModelControlTableInfo_t control_table_2_0[] PROGMEM = {
   {ControlTableItem::LAST_DUMMY_ITEM,          0, 0}
 };
 
+#ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
 const ModelControlTableInfo_t mx28_2_control_table[] PROGMEM = {
 #if (ENABLE_ACTUATOR_MX28_PROTOCOL2)
   {ControlTableItem::ACCELERATION_LIMIT,      40, 4},
@@ -267,6 +270,8 @@ const ModelControlTableInfo_t xmh430_xl330_control_table[] PROGMEM = {
   {ControlTableItem::LAST_DUMMY_ITEM,          0, 0}
 };
 
+#endif //EC1_DYNAMIXEL2ARDUINO_OPTIMIZE 
+
 const ModelControlTableInfo_t xmh540_control_table[] PROGMEM = {
 #if (ENABLE_ACTUATOR_XM540 \
  || ENABLE_ACTUATOR_XH540)
@@ -284,6 +289,7 @@ const ModelControlTableInfo_t xmh540_control_table[] PROGMEM = {
   {ControlTableItem::LAST_DUMMY_ITEM,          0, 0}
 };
 
+#ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
 const ModelControlTableInfo_t xw430_540_control_table[] PROGMEM = {
 #if (ENABLE_ACTUATOR_XW540 || ENABLE_ACTUATOR_XW430 )
   {ControlTableItem::CURRENT_LIMIT,           38, 2},
@@ -497,6 +503,7 @@ const ModelControlTableInfo_t y_control_table[] PROGMEM = {
 #endif
   {ControlTableItem::LAST_DUMMY_ITEM,                      0, 0}
 };
+#endif //EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
 
 ControlTableItemInfo_t DYNAMIXEL::getControlTableItemInfo(uint16_t model_num, uint8_t control_item)
 {
@@ -508,6 +515,7 @@ ControlTableItemInfo_t DYNAMIXEL::getControlTableItemInfo(uint16_t model_num, ui
 
   switch(model_num)
   {
+    #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case AX12A:
     case AX12W:
     case AX18A:
@@ -584,17 +592,20 @@ ControlTableItemInfo_t DYNAMIXEL::getControlTableItemInfo(uint16_t model_num, ui
       break;
 
     case XM540_W150:
+  #endif
     case XM540_W270:
+  #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case XH540_W150:
     case XH540_W270:
     case XH540_V150:
     case XH540_V270:
     case XD540_T150:
     case XD540_T270:
+  #endif // EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
       p_common_ctable = control_table_2_0;
       p_dep_ctable = xmh540_control_table;
       break;    
-
+#ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
     case XW540_T140:
     case XW540_T260:
     case XW430_T200:
@@ -646,7 +657,7 @@ ControlTableItemInfo_t DYNAMIXEL::getControlTableItemInfo(uint16_t model_num, ui
     case YM080_230_A099_RH:
       p_common_ctable = y_control_table;
       break;
-
+#endif
     default:
       break;
   }
