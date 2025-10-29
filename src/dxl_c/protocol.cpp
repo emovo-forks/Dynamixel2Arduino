@@ -375,9 +375,13 @@ DXLLibErrorCode_t parse_dxl_packet(InfoToParseDXLPacket_t* p_parse_packet, uint8
 
   if(p_parse_packet->protocol_ver == 2){
     ret = parse_dxl2_0_packet(p_parse_packet, recv_data);
-  }else if(p_parse_packet->protocol_ver == 1){
+  }
+  #ifndef EC1_DYNAMIXEL2ARDUINO_OPTIMIZE
+  else if(p_parse_packet->protocol_ver == 1){
     ret = parse_dxl1_0_packet(p_parse_packet, recv_data);
-  }else{
+  }
+  #endif
+  else{
     ret = DXL_LIB_ERROR_INVAILD_PROTOCOL_VERSION;
   }
 
