@@ -911,6 +911,18 @@ float Dynamixel2Arduino::getPresentCurrent(uint8_t id, uint8_t unit)
   return readForRangeDependencyFunc(GET_CURRENT, id, unit);
 }
 
+float Dynamixel2Arduino::getMovingThreshold(uint8_t id, uint8_t unit)
+{
+  static const float MOVING_THRESHOLD_UNIT_RPM = 0.229f;
+
+  int32_t raw = readControlTableItem(ControlTableItem::MOVING_THRESHOLD, id);
+
+  if (unit == UNIT_RPM) {
+    return raw * MOVING_THRESHOLD_UNIT_RPM;
+  }
+  return (float)raw;
+}
+
 bool Dynamixel2Arduino::getTorqueEnableStat(uint8_t id)
 {
   bool ret = false;

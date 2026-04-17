@@ -385,7 +385,25 @@ class Dynamixel2Arduino : public DYNAMIXEL::Master
      * @return It returns the Torque Enable data read from DXL control table item.
      * If the Torque is On, true(1) is returned. Otherwise false(0) is returned.
      */  
-    bool getTorqueEnableStat(uint8_t id);   
+    bool getTorqueEnableStat(uint8_t id);
+
+    /**
+     * @brief It is API for getting the Moving Threshold of DYNAMIXEL.
+     * When the absolute value of Present Velocity is greater than the Moving Threshold,
+     * the Moving status bit is set to 1.
+     * @code
+     * const int DXL_DIR_PIN = 2;
+     * Dynamixel2Arduino dxl(Serial1, DXL_DIR_PIN);
+     * Serial.print(dxl.getMovingThreshold(1));           // raw (0~1023)
+     * Serial.print(dxl.getMovingThreshold(1, UNIT_RPM)); // in RPM
+     * @endcode
+     * @param id DYNAMIXEL Actuator's ID.
+     * @param unit The unit for the returned value. (default : UNIT_RAW)
+     *    Supports UNIT_RAW and UNIT_RPM. Resolution is ~0.229 rpm per raw unit.
+     * @return Moving Threshold value in the requested unit.
+     * If the read fails, 0 is returned.
+     */
+    float getMovingThreshold(uint8_t id, uint8_t unit = UNIT_RAW);   
 
     /**
      * @brief It is API for getting data of a DYNAMIXEL control table item.
